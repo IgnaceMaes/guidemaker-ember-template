@@ -14,6 +14,7 @@ export default Component.extend({
   classNames: ['search-input'],
 
   didInsertElement() {
+    this._super(...arguments);
     const config = getOwner(this).resolveRegistration('config:environment');
     const { algoliaId, algoliaKey, indexName } = config['algolia'] || {};
     const deprecationsGuideURL = config['deprecationsGuideURL'];
@@ -26,15 +27,15 @@ export default Component.extend({
       apiKey: algoliaKey,
       searchParameters: {
         hitsPerPage: 15,
-        restrictSearchableAttributes: ['content'],
+        // restrictSearchableAttributes: ['content'],
       },
     };
 
-    if (this.projectVersion && this.projectVersion.match(/\d+\.\d+\.\d+/)) {
-      docsearchParams.searchParameters.facetFilters = [
-        [`version:${this.projectVersion}`],
-      ];
-    }
+    // if (this.projectVersion && this.projectVersion.match(/\d+\.\d+\.\d+/)) {
+    //   docsearchParams.searchParameters.facetFilters = [
+    //     [`version:${this.projectVersion}`],
+    //   ];
+    // }
 
     if (deprecationsGuideURL) {
       docsearchParams.getMissingResultsUrl = () => deprecationsGuideURL;
